@@ -32,9 +32,14 @@ public class FluidBuilderMixin {
     
     /**
      * Temporary fix for https://github.com/tterrag1098/Registrate/issues/81
+     * <p>
+     * The synthetic lambda ordinal in {@code FluidBuilder} differs between Registrate builds
+     * ({@code lambda$tag$25} in 1.3.x bundled by Create, {@code lambda$tag$33} in 1.4.x bundled
+     * by e.g. neoecoae/Immersive Mechanical), so the lambda is selected by regex instead of an
+     * exact name. See https://github.com/petrolpark/Create-Library/issues/125
      */
     @WrapOperation(
-        method = "Lcom/tterrag/registrate/builders/FluidBuilder;lambda$tag$25(Lnet/minecraft/data/tags/TagsProvider$TagAppender;)V",
+        method = "name=/^lambda\\$tag\\$\\d+$/ desc=/^\\(Lnet\\/minecraft\\/data\\/tags\\/TagsProvider\\$TagAppender;\\)V$/",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/data/tags/TagsProvider$TagAppender;add(Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/data/tags/TagsProvider$TagAppender;"
